@@ -1,22 +1,22 @@
 package bst;
 
-public class BTree {
+public class BTree<T extends Comparable<T>> {
 
 	int count;
 	Node root;
 
 	private class Node {
 
-		int data;
+		T data;
 		Node left, right;
 
-		Node(int data) {
+		Node(T data) {
 			this.data = data;
 			left = right = null;
 		}
 	}
 
-	public boolean addElement(int value) {
+	public boolean addElement(T value) {
 		Node node = new Node(value);
 		if (count == 0) {
 			root = node;
@@ -25,7 +25,7 @@ public class BTree {
 		}
 		Node temp = root;
 		while (temp != null) {
-			if (node.data < temp.data) {
+			if (node.data.compareTo(temp.data)<0) {
 				if (temp.left == null) {
 					temp.left = node;
 					count++;
@@ -35,7 +35,7 @@ public class BTree {
 				}
 				// temp = temp.left;
 			} else {
-				if (node.data > temp.data) {
+				if (node.data.compareTo(temp.data)>0) {
 
 					if (temp.right == null) {
 						temp.right = node;
@@ -74,24 +74,24 @@ public class BTree {
 		if (node == null)
 			return;
 		else {
-			// System.out.println(node.data); preorder
+			// System.out.println(node.data); pre order
 			display(node.left);
-			System.out.println(node.data); // inorder
+			System.out.println(node.data); // in order
 			display(node.right);
-			// System.out.println(node.data); postorder
+			// System.out.println(node.data); post order
 		}
 
 	}
 
-	public boolean removeElement(int value) {
+	public boolean removeElement(T value) {
 
 		Node temp = root, prev = null;
 
 		while (temp != null) {
-			if (temp.data == value) {
+			if (temp.data.compareTo(value)==0) {
 				break;
 			}
-			if (temp.data < value) {
+			if (temp.data.compareTo(value)<0) {
 				prev = temp;
 				temp = temp.right;
 			} else {
@@ -149,19 +149,19 @@ public class BTree {
 						
 		}
 		count--;
-		node.data = 0;
+		node.data = null;
 		node.left = node.right = null;
 		node = null;
 		return;
 	}
 
-	public boolean isPresent(int value) {
+	public boolean isPresent(T value) {
 		Node temp = root;
 		while (temp != null) {
-			if (temp.data == value) {
+			if (temp.data.compareTo(value)==0) {
 				return true;
 			}
-			if (temp.data < value)
+			if (temp.data.compareTo(value)<0)
 				temp = temp.right;
 			else
 				temp = temp.left;
